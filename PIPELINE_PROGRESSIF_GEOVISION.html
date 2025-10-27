@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoVision - Pipeline Progressif Intelligent</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .progress-bar {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .step-initial { background: #6c757d; }
+        .step-growing { background: #ffc107; }
+        .step-integrated { background: #28a745; }
+        .step-autonomous { background: #007bff; }
+        
+        .step-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .step-desc {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.3;
+        }
+        
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background: #dee2e6;
+            z-index: 1;
+        }
+        
+        .diagram-container {
+            padding: 30px;
+            text-align: center;
+            overflow-x: auto;
+        }
+        
+        
+        .controls {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-top: 2px solid #e9ecef;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 5px;
+            font-size: 14px;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        @media (max-width: 768px) {
+            .progress-steps {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .step:not(:last-child)::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 GeoVision - Pipeline Progressif</h1>
+            <p>De l'Assistance Manuelle à l'Autonomie Complète</p>
+        </div>
+        
+        <div class="progress-bar">
+            <h3>🎯 Évolution Progressive du Système</h3>
+            <div class="progress-steps">
+                <div class="step">
+                    <div class="step-circle step-initial">1</div>
+                    <div class="step-title">Phase Initiale</div>
+                    <div class="step-desc">Modèle pré-entraîné<br/>+ Annotations manuelles<br/>100-200 exemples</div>
+                </div>
+                <div class="step">
+                    <div class="step-circle step-growing">2</div>
+                    <div class="step-title">Croissance Dataset</div>
+                    <div class="step-desc">Entraînement parallèle<br/>3 modèles spécialisés<br/>200-400 exemples</div>
+                </div>
+                <div class="step">
+                    <div class="step-circle step-integrated">3</div>
+                    <div class="step-title">Intégration Progressive</div>
+                    <div class="step-desc">Modèles s'activent<br/>selon performances<br/>400-600 exemples</div>
+                </div>
+                <div class="step">
+                    <div class="step-circle step-autonomous">4</div>
+                    <div class="step-title">Autonomie Contrôlée</div>
+                    <div class="step-desc">Production automatique<br/>Contrôle 1-5%<br/>600+ exemples</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="diagram-container">
+            <div class="mermaid">
+                flowchart TD
+                    %% ===========================================
+                    %% DEMARRAGE ET INITIALISATION
+                    %% ===========================================
+                    
+                    START(["🚀 Utilisateur démarre GeoVision"]) --> INITIAL_SETUP["⚙️ Configuration Initiale<br/>Zone + Type d'objet"]
+                    INITIAL_SETUP --> DATA_CHECK{"Données OSM<br/>disponibles ?"}
+                    
+                    DATA_CHECK -->|Oui| OSM_GUIDE["📍 Guides OSM<br/>Points/Lignes vers Prompts"]
+                    DATA_CHECK -->|Non| MANUAL_START["✏️ Annotation Pure<br/>BBox manuelles"]
+                    
+                    %% ===========================================
+                    %% PHASE 1: DEMARRAGE AVEC MODELE PRE-ENTRAINE
+                    %% ===========================================
+                    
+                    OSM_GUIDE --> PHASE1_START["🎯 PHASE 1: Modèle Pré-entraîné Seul"]
+                    MANUAL_START --> PHASE1_START
+                    
+                    PHASE1_START --> USER_BBOX["👤 Utilisateur trace BBox<br/>ou utilise guides OSM"]
+                    USER_BBOX --> PRETRAINED_SEG["🤖 Segmentation GeoSAM<br/>Modèle pré-entraîné universel"]
+                    
+                    PRETRAINED_SEG --> USER_VALIDATE1["👤 Validation Utilisateur<br/>Accepter/Corriger/Rejeter"]
+                    USER_VALIDATE1 --> MANUAL_EDIT1{"Corrections<br/>nécessaires ?"}
+                    
+                    MANUAL_EDIT1 -->|Oui| USER_CORRECT1["✏️ Corrections Manuelles<br/>Clic positif/négatif"]
+                    MANUAL_EDIT1 -->|Non| SAVE_SAMPLE1["💾 Sauvegarde Échantillon<br/>Dataset en croissance"]
+                    
+                    USER_CORRECT1 --> GEOSAM_REFINE1["🔄 GeoSAM Raffinement<br/>Nouveaux prompts"]
+                    GEOSAM_REFINE1 --> USER_VALIDATE1
+                    
+                    SAVE_SAMPLE1 --> COUNT_CHECK1{"Plus de 100-200<br/>échantillons ?"}
+                    COUNT_CHECK1 -->|Non| CONTINUE_PHASE1["➡️ Continuer Phase 1<br/>Plus d'annotations"]
+                    COUNT_CHECK1 -->|Oui| START_TRAINING["🚀 Démarrage Entraînement<br/>Modèles Spécialisés"]
+                    
+                    CONTINUE_PHASE1 --> USER_BBOX
+                    
+                    %% ===========================================
+                    %% PHASE 2: ENTRAINEMENT EN PARALLELE
+                    %% ===========================================
+                    
+                    START_TRAINING --> PHASE2_START["📚 PHASE 2: Entraînement Parallèle"]
+                    PHASE2_START --> PARALLEL_TRAIN["🔄 Entraînement Simultané des 3 Modèles"]
+                    
+                    PARALLEL_TRAIN --> TRAIN_DET["🎯 Entraînement<br/>Modèle Détection<br/>YOLO Fine-tuning"]
+                    PARALLEL_TRAIN --> TRAIN_SEG["🎨 Entraînement<br/>Modèle Segmentation<br/>SegFormer Fine-tuning"]
+                    PARALLEL_TRAIN --> TRAIN_VLLM["🧠 Entraînement<br/>VLLM Validation<br/>LLaVA Fine-tuning"]
+                    
+                    %% Pendant entrainement utilisateur continue avec pre-entraine
+                    TRAIN_DET --> CONTINUE_ANNOTATION["👤 Utilisateur Continue<br/>Annotation avec Pré-entraîné"]
+                    TRAIN_SEG --> CONTINUE_ANNOTATION
+                    TRAIN_VLLM --> CONTINUE_ANNOTATION
+                    
+                    CONTINUE_ANNOTATION --> MORE_SAMPLES["💾 Plus d'Échantillons<br/>Dataset 200-400 exemples"]
+                    MORE_SAMPLES --> MODEL_EVAL["📊 Évaluation Modèles<br/>Performances mesurées"]
+                    
+                    %% ===========================================
+                    %% PHASE 3: INTEGRATION PROGRESSIVE
+                    %% ===========================================
+                    
+                    MODEL_EVAL --> PHASE3_START["🎛️ PHASE 3: Intégration Progressive"]
+                    PHASE3_START --> DASHBOARD["📊 Dashboard Performances<br/>Suivi temps réel"]
+                    
+                    DASHBOARD --> CHECK_DETECTION{"Détection > 70% mAP<br/>(seuil allégé) ?"}
+                    CHECK_DETECTION -->|Oui| ACTIVATE_DET["✅ ACTIVATION Détection<br/>Utilisateur n'a plus à tracer BBox"]
+                    CHECK_DETECTION -->|Non| KEEP_MANUAL_DET["❌ Détection Manuelle<br/>Continue BBox manuelles"]
+                    
+                    DASHBOARD --> CHECK_SEGMENTATION{"Segmentation > 70% IoU<br/>(seuil allégé) ?"}
+                    CHECK_SEGMENTATION -->|Oui| ACTIVATE_SEG["✅ ACTIVATION Segmentation<br/>Segmentation auto améliorée"]
+                    CHECK_SEGMENTATION -->|Non| KEEP_GEOSAM["❌ GeoSAM Standard<br/>Continue pré-entraîné"]
+                    
+                    DASHBOARD --> CHECK_VLLM{"VLLM > 80% Accord<br/>(seuil allégé) ?"}
+                    CHECK_VLLM -->|Oui| ACTIVATE_VLLM["✅ ACTIVATION Validation<br/>Validation semi-automatique"]
+                    CHECK_VLLM -->|Non| KEEP_HUMAN_VAL["❌ Validation Humaine<br/>Continue validation manuelle"]
+                    
+                    %% Pipeline ameliore Phase 3
+                    ACTIVATE_DET --> IMPROVED_PIPELINE["🚀 Pipeline Amélioré Phase 3"]
+                    KEEP_MANUAL_DET --> IMPROVED_PIPELINE
+                    ACTIVATE_SEG --> IMPROVED_PIPELINE
+                    KEEP_GEOSAM --> IMPROVED_PIPELINE
+                    ACTIVATE_VLLM --> IMPROVED_PIPELINE
+                    KEEP_HUMAN_VAL --> IMPROVED_PIPELINE
+                    
+                    IMPROVED_PIPELINE --> SMART_DETECTION{"Détection<br/>activée ?"}
+                    SMART_DETECTION -->|Oui| AUTO_FIND["🎯 IA trouve objets<br/>automatiquement"]
+                    SMART_DETECTION -->|Non| USER_BBOX3["👤 Utilisateur trace<br/>BBox comme avant"]
+                    
+                    AUTO_FIND --> SMART_SEGMENTATION{"Segmentation<br/>spécialisée ?"}
+                    USER_BBOX3 --> SMART_SEGMENTATION
+                    
+                    SMART_SEGMENTATION -->|Oui| SPECIALIZED_SEG["🎨 Segmentation Spécialisée<br/>Modèle fine-tuné terrain"]
+                    SMART_SEGMENTATION -->|Non| GEOSAM_SEG["🤖 GeoSAM Standard<br/>Pré-entraîné"]
+                    
+                    SPECIALIZED_SEG --> SMART_VALIDATION{"VLLM<br/>activé ?"}
+                    GEOSAM_SEG --> SMART_VALIDATION
+                    
+                    SMART_VALIDATION -->|Oui| VLLM_JUDGE["🧠 VLLM Évalue<br/>Segmentation correcte ?"]
+                    SMART_VALIDATION -->|Non| USER_VALIDATE3["👤 Validation Humaine<br/>Comme avant"]
+                    
+                    VLLM_JUDGE --> VLLM_DECISION{"Décision VLLM"}
+                    VLLM_DECISION -->|"Confiance > 80%<br/>ACCEPT"| AUTO_ACCEPT3["✅ Auto-Acceptation<br/>Ajout dataset direct"]
+                    VLLM_DECISION -->|"50% < Conf < 80%<br/>REVIEW"| HUMAN_REVIEW3["🟡 Revue Humaine<br/>Utilisateur décide"]
+                    VLLM_DECISION -->|"Confiance < 50%<br/>REJECT"| AUTO_REJECT3["❌ Auto-Rejet<br/>Suppression"]
+                    
+                    USER_VALIDATE3 --> USER_DECISION3{"Décision<br/>Utilisateur"}
+                    HUMAN_REVIEW3 --> USER_DECISION3
+                    
+                    USER_DECISION3 -->|Accepter| USER_ACCEPT3["✅ Validation<br/>Ajout dataset"]
+                    USER_DECISION3 -->|Corriger| USER_CORRECT3["✏️ Correction<br/>Puis ajout"]
+                    USER_DECISION3 -->|Rejeter| USER_REJECT3["❌ Rejet<br/>Suppression"]
+                    
+                    %% Croissance dataset Phase 3
+                    AUTO_ACCEPT3 --> DATASET_GROWTH3["📈 Dataset Croissance<br/>400-600 échantillons"]
+                    USER_ACCEPT3 --> DATASET_GROWTH3
+                    USER_CORRECT3 --> DATASET_GROWTH3
+                    
+                    DATASET_GROWTH3 --> RETRAIN_CHECK3{"Plus de 100 nouveaux<br/>échantillons ?"}
+                    RETRAIN_CHECK3 -->|Oui| INCREMENTAL_TRAIN["🔄 Réentraînement<br/>Incrémental"]
+                    RETRAIN_CHECK3 -->|Non| CONTINUE_PHASE3["➡️ Continuer Phase 3"]
+                    
+                    INCREMENTAL_TRAIN --> MODEL_UPDATE3["📈 Mise à Jour<br/>Modèles Améliorés"]
+                    MODEL_UPDATE3 --> DASHBOARD
+                    
+                    CONTINUE_PHASE3 --> AUTONOMY_CHECK{"Tous modèles<br/>> seuils complets ?"}
+                    AUTONOMY_CHECK -->|Non| IMPROVED_PIPELINE
+                    AUTONOMY_CHECK -->|Oui| PHASE4_READY["🎉 Phase 4 Disponible<br/>Autonomie Complète"]
+                    
+                    %% ===========================================
+                    %% PHASE 4: AUTONOMIE CONTROLEE
+                    %% ===========================================
+                    
+                    PHASE4_READY --> USER_CHOICE4{"Utilisateur active<br/>Mode Autonome ?"}
+                    USER_CHOICE4 -->|Non| IMPROVED_PIPELINE
+                    USER_CHOICE4 -->|Oui| PHASE4_START["🤖 PHASE 4: Autonomie Contrôlée"]
+                    
+                    PHASE4_START --> AUTONOMOUS_PROD["⚡ Production Autonome<br/>Traitement de masse"]
+                    AUTONOMOUS_PROD --> BATCH_PROCESS["🔄 Traitement par Lots<br/>Détection + Segmentation + Validation"]
+                    
+                    BATCH_PROCESS --> QUALITY_FILTER4["🎯 Filtrage Qualité<br/>VLLM Judge sur lots"]
+                    QUALITY_FILTER4 --> MASS_DATASET["📦 Dataset de Masse<br/>Production industrielle"]
+                    
+                    MASS_DATASET --> RANDOM_SAMPLE["🎲 Échantillonnage 1-5%<br/>Contrôle qualité humain"]
+                    RANDOM_SAMPLE --> HUMAN_QC["👤 Contrôle Qualité<br/>Validation spot"]
+                    
+                    HUMAN_QC --> DRIFT_CHECK4{"Dérive<br/>détectée ?"}
+                    DRIFT_CHECK4 -->|Non| PUBLISH_FINAL["🚀 Publication Datasets<br/>HuggingFace Hub"]
+                    DRIFT_CHECK4 -->|Oui| ALERT_USER["🚨 Alerte Utilisateur<br/>Intervention requise"]
+                    
+                    ALERT_USER --> DIAGNOSTIC4["🔍 Diagnostic<br/>Analyse problème"]
+                    DIAGNOSTIC4 --> CORRECTION4["🔧 Correction<br/>Ajustements"]
+                    CORRECTION4 --> PHASE3_START
+                    
+                    PUBLISH_FINAL --> SUCCESS["🎉 SUCCÈS COMPLET<br/>Pipeline Autonome Fonctionnel<br/>Datasets Haute Qualité"]
+                    
+                    %% Styling
+                    classDef phase1 fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+                    classDef phase2 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+                    classDef phase3 fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+                    classDef phase4 fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
+                    classDef decision fill:#ffecb3,stroke:#ff8f00,stroke-width:3px
+                    classDef human fill:#ffcdd2,stroke:#c62828,stroke-width:2px
+                    classDef success fill:#c8e6c9,stroke:#388e3c,stroke-width:3px
+                    classDef training fill:#e1bee7,stroke:#8e24aa,stroke-width:2px
+                    
+                    %% Apply styles
+                    class PHASE1_START,USER_BBOX,PRETRAINED_SEG,USER_VALIDATE1,SAVE_SAMPLE1 phase1
+                    class PHASE2_START,PARALLEL_TRAIN,TRAIN_DET,TRAIN_SEG,TRAIN_VLLM,MODEL_EVAL phase2
+                    class PHASE3_START,DASHBOARD,ACTIVATE_DET,ACTIVATE_SEG,ACTIVATE_VLLM,IMPROVED_PIPELINE phase3
+                    class PHASE4_START,AUTONOMOUS_PROD,BATCH_PROCESS,MASS_DATASET phase4
+                    class DATA_CHECK,MANUAL_EDIT1,COUNT_CHECK1,CHECK_DETECTION,CHECK_SEGMENTATION,CHECK_VLLM,SMART_DETECTION,SMART_SEGMENTATION,SMART_VALIDATION,VLLM_DECISION,USER_DECISION3,AUTONOMY_CHECK,USER_CHOICE4,DRIFT_CHECK4 decision
+                    class USER_VALIDATE1,USER_CORRECT1,USER_VALIDATE3,HUMAN_REVIEW3,USER_ACCEPT3,USER_CORRECT3,HUMAN_QC human
+                    class SUCCESS success
+                    class CONTINUE_ANNOTATION,INCREMENTAL_TRAIN,MODEL_UPDATE3 training
+            </div>
+        </div>
+        
+        
+        <div class="controls">
+            <h3>🎮 Contrôles d'Affichage</h3>
+            <button class="btn" onclick="zoomIn()">🔍 Zoom +</button>
+            <button class="btn" onclick="zoomOut()">🔍 Zoom -</button>
+            <button class="btn" onclick="resetZoom()">↩️ Reset</button>
+            <button class="btn" onclick="exportSVG()">💾 Export SVG</button>
+            <button class="btn" onclick="showPhase(1)">📍 Phase 1</button>
+            <button class="btn" onclick="showPhase(2)">📚 Phase 2</button>
+            <button class="btn" onclick="showPhase(3)">🎛️ Phase 3</button>
+            <button class="btn" onclick="showPhase(4)">🤖 Phase 4</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 15
+            },
+            themeVariables: {
+                primaryColor: '#ffffff',
+                primaryTextColor: '#333333',
+                primaryBorderColor: '#cccccc',
+                lineColor: '#666666',
+                secondaryColor: '#f8f9fa',
+                tertiaryColor: '#e9ecef'
+            }
+        });
+        
+        // Fonctions de contrôle
+        let currentZoom = 0.8; // Start smaller for mobile
+        
+        function zoomIn() {
+            currentZoom += 0.1;
+            applyZoom();
+        }
+        
+        function zoomOut() {
+            currentZoom = Math.max(0.3, currentZoom - 0.1);
+            applyZoom();
+        }
+        
+        function resetZoom() {
+            currentZoom = 0.8;
+            applyZoom();
+        }
+        
+        function applyZoom() {
+            const diagram = document.querySelector('.mermaid svg');
+            if (diagram) {
+                diagram.style.transform = `scale(${currentZoom})`;
+                diagram.style.transformOrigin = 'top center';
+            }
+        }
+        
+        function exportSVG() {
+            const diagram = document.querySelector('.mermaid svg');
+            if (diagram) {
+                const svgData = new XMLSerializer().serializeToString(diagram);
+                const blob = new Blob([svgData], {type: 'image/svg+xml'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'geovision_pipeline_progressif.svg';
+                a.click();
+            }
+        }
+        
+        function showPhase(phase) {
+            // Highlight specific phase (future enhancement)
+            alert(`Focus sur Phase ${phase} - Fonctionnalité à venir`);
+        }
+        
+        // Auto-resize
+        window.addEventListener('resize', () => {
+            applyZoom();
+        });
+        
+        // Apply zoom after diagram loads
+        setTimeout(() => {
+            applyZoom();
+        }, 2000);
+    </script>
+</body>
+</html>
